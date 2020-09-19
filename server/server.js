@@ -8,11 +8,19 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 index = require('./routes/index');
 const fileUpload = require('express-fileupload');
-mongoose.connect('mongodb://127.0.0.1:27017/todos', { useNewUrlParser: true });
-const connection = mongoose.connection;
-connection.once('open', function () {
-    console.log("MongoDB database connection established successfully");
+require('dotenv').config();
+mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@ds211265.mlab.com:11265/mern_todo`, {
+  useCreateIndex: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
 })
+  .then(() => {
+    console.log("Connected to the Database");
+  })
+  .catch((err) => {
+    console.log("Could not connected to Database");
+  });
 app.use(express.static('/public'));
 app.use(express.static(__dirname + '/public', { maxAge: '30 days' }));
 app.use(express.static(__dirname + '/../public'));

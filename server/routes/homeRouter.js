@@ -9,6 +9,10 @@ router.get('/', (req, res) => {
 router.post('/add/record', (req, res) => {
     homeScript.saveRecord(req, res);
 });
+//get record by id
+router.get('/update/record/:id', (req, res) => {
+    homeScript.getRecord(req, res);
+});
 //update record by id
 router.post('/update/record/:id', (req, res) => {
     homeScript.updateRecord(req, res);

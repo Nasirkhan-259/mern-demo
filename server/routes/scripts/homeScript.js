@@ -87,7 +87,7 @@ module.exports = {
             if (req.body.price == undefined || req.body.price == "") {
                 return res.send({ "success": false, 'message': "Price is missing" })
             }
-            if ((req.files == undefined || req.files.image == undefined) || req.body.oldImage == "") {
+            if ((req.files == undefined || req.files == null || req.files.image == undefined) && req.body.oldImage == "") {
                 return res.send({ "success": false, 'message': "Image is missing" })
             }
             let imagePath;
@@ -134,6 +134,7 @@ module.exports = {
                 }
             })
         } catch (error) {
+            console.log(error);
             return res.send({ "success": false, 'message': error });
         }
 
@@ -142,6 +143,14 @@ module.exports = {
         try {
             let record = await TodoModel.deleteOne({ _id: req.params.id });
             return res.send({ "success": true, record: req.params.id });
+        } catch (error) {
+            return res.send({ "success": false, 'message': error });
+        }
+    },
+    getRecord: async function (req, res) {
+        try {
+            let record = await TodoModel.findById({ _id: req.params.id });
+            return res.send({ "success": true, record});
         } catch (error) {
             return res.send({ "success": false, 'message': error });
         }
