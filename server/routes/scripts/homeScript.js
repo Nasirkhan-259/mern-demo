@@ -142,7 +142,8 @@ module.exports = {
     deleteRecord: async function (req, res) {
         try {
             let record = await TodoModel.deleteOne({ _id: req.params.id });
-            return res.send({ "success": true, record: req.params.id });
+            let allData = await TodoModel.find({});
+            return res.send({ "success": true, record: allData });
         } catch (error) {
             return res.send({ "success": false, 'message': error });
         }
